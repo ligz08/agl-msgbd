@@ -58,7 +58,7 @@ Therefore the versions are:
 |D|Daring Dab|
 |E|Electric Eel|
 
-The Eel 5.0.1 worked for me.
+The Eel 5.0.1 worked for me.  
 (I experienced tons of building errors when I first tried downloading the master branch,
 not recommend that.)
 
@@ -114,9 +114,9 @@ sda      8:0    0   20G  0 disk
 Here `sdb` refer to the SD card device. (Double check the size to make sure.)
 
 Next, unmount the SD card device, then flash data into it.
-Run these commands:
+Run these commands:  
 ***Replace `sdb` with the device name that refers your SD card!
-The `dd` command can be destructible!***
+The `dd` command can be destructive!***
 ```bash
 sudo umount /dev/sdb
 xzcat agl-demo-platform-raspberrypi2.wic.xz | sudo dd of=/dev/sdb bs=4M
@@ -124,5 +124,6 @@ sync
 ```
 
 Now put the SD card into Raspberry Pi 2,
+power it on,
 then you should be able to see it boot,
-and finally rest at AGL homescreen.
+and finally rest at AGL home screen.
