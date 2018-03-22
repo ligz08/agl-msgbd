@@ -1,5 +1,7 @@
 import argparse
 import subprocess
+from pifm import PiFm
+from time import sleep
 
 class MinimodemEncoder:
     def __init__(self, audio_filename, baudmode):
@@ -30,12 +32,14 @@ if __name__=='__main__':
                              'details')
     args = parser.parse_args()
     
-    
-    
     if args.file:
         with open(args.file, 'r') as f:
             message = f.read() or args.message
             
-    encoder = MinimodemEncoder(audio_filename='message.wav', baudmode='300')
+    encoder = MinimodemEncoder(audio_filename='message.wav', baudmode=args.baudmode)
     encoder.write(message)
     encoder.close()
+    
+    for repeat in range(int(args.repeats)):
+        PiFm.play_sound('message.wav')
+        sleep(float(args.gap))
