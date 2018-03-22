@@ -58,7 +58,8 @@ Therefore the versions are:
 |D|Daring Dab|
 |E|Electric Eel|
 
-The Eel 5.0.1 worked for me.  
+The [Eel 5.0.1](https://wiki.automotivelinux.org/agl-distro/release-notes#eel_501)
+version worked for me.  
 (I experienced tons of building errors when I first tried downloading the master branch,
 not recommend that.)
 
@@ -84,9 +85,17 @@ bitbake agl-demo-platform
 The first command runs a script and set up some configuration variables.
 The second line starts the actual building. It can take several hours.
 
+If you want the AGL SDK to be built as well, run:
+```bash
+batbake agl-demo-platform-crosssdk
+```
+instead of `bitbake agl-demo-platform`.  
+You'll get a folder `~/AGL-Eel/build/tmp/deploy/sdk` which contains SDK files.
+
+
 # Put the Built Image into an SD Card
 If the `bitbake` command runs successfully,
-you should have a `build` directory under `AGL-Eel`.
+you should have a `~AGL-Eel/build/` directory.
 
 Find this file:
 `~/AGL-Eel/build/tmp/deploy/images/raspberrypi2/agl-demo-platform-raspberrypi2.wic.xz`
@@ -98,7 +107,7 @@ Now you can insert the SD card.
 Refer to [this post](https://blog.lobraun.de/2015/06/06/mount-sd-cards-within-virtualbox-on-mac-os-x/)
 for how to access the SD card plugged onto a Mac OS machine from inside a VirtualBox VM.
 
-After plugging in the SD card run `lsblk` (list block) command in Ubuntu's terminal.
+After plugging in the SD card, run `lsblk` (list block) command in Ubuntu's terminal.
 The out put should look something like this:
 ```bash
  $ lsblk
@@ -111,16 +120,23 @@ sda      8:0    0   20G  0 disk
 ├─sda5   8:5    0 15.4G  0 part /
 └─sda1   8:1    0  4.7G  0 part [SWAP]
 ```
-Here `sdb` refer to the SD card device. (Double check the size to make sure.)
+Here `sdb` refers to the SD card device. (Double check the size to make sure.)
 
 Next, unmount the SD card device, then flash data into it.
 Run these commands:  
-***Replace `sdb` with the device name that refers your SD card!
+***Replace `sdb` with the device name that refers to your SD card!
 The `dd` command can be destructive!***
 ```bash
 sudo umount /dev/sdb
 xzcat agl-demo-platform-raspberrypi2.wic.xz | sudo dd of=/dev/sdb bs=4M
 sync
+```
+When these commands are completed, 
+you should see output text similar to this in the terminal:
+```
+0+494823 records in
+0+494823 records out
+5178288128 bytes (5.2 GB, 4.8 GiB) copied, 2471.06 s, 2.1 MB/s
 ```
 
 Now put the SD card into Raspberry Pi 2,
