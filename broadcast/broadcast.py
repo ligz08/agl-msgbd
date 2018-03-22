@@ -34,7 +34,9 @@ if __name__=='__main__':
     
     if args.file:
         with open(args.file, 'r') as f:
-            message = f.read() or args.message
+            message = f.read()
+    else:
+        message = args.message
             
     encoder = MinimodemEncoder(audio_filename='message.wav', baudmode=args.baudmode)
     encoder.write(message)
